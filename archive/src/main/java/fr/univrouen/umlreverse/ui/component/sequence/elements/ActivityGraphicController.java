@@ -77,8 +77,10 @@ public class ActivityGraphicController extends AEntityGraphicController
         String position = style.getValue(IDiagramEditorController.POSITION_STYLE_ID);
         String[] positionTab = position.split("\\|");
 
-        double tX = Double.valueOf(positionTab[2]);
-        double tY = Double.valueOf(positionTab[3]);
+        //double tX = Double.valueOf(positionTab[2]);
+        double tX = Double.parseDouble(positionTab[2]);
+        //double tY = Double.valueOf(positionTab[3]);
+        double tY = Double.parseDouble(positionTab[3]);
 
         model.addStyle(IDiagramEditorController.POSITION_STYLE_ID,
                 value.getX() + "|" + value.getY() + "|"
@@ -99,9 +101,14 @@ public class ActivityGraphicController extends AEntityGraphicController
         IStyle style = model.getStyle();
         String position = style.getValue(IDiagramEditorController.POSITION_STYLE_ID);
         String[] positionTab = position.split("\\|");
-        double x = Double.valueOf(positionTab[2]);
-        double lX = Double.valueOf(positionTab[0]);
-        double lY = Double.valueOf(positionTab[1]);
+        
+        //double x = Double.valueOf(positionTab[2]);
+        double x = Double.parseDouble(positionTab[2]);
+        //double lX = Double.valueOf(positionTab[0]);
+        double lX = Double.parseDouble(positionTab[0]);
+        //double lY = Double.valueOf(positionTab[1]);
+        double lY = Double.parseDouble(positionTab[1]);
+        
         if ((value.getY() >
         diagramController.getObjects().values().stream().findFirst().get().getTranslateY() +
         diagramController.getObjects().values().stream().findFirst().get().getRectangle().getHeight()
@@ -121,7 +128,7 @@ public class ActivityGraphicController extends AEntityGraphicController
         final ContextMenu ctxMenu = getContextMenu();
         MenuItem editMI = getEditMI();
         MenuItem removeMI = getRemoveMI();
-        MenuItem addRelationMI = getAddRelationMI();
+        //MenuItem addRelationMI = getAddRelationMI();
         editMI.setText("Ajouter un fils");
         // Show context menu.
         activityG.addEventHandler(ContextMenuEvent.CONTEXT_MENU_REQUESTED,
@@ -153,10 +160,14 @@ public class ActivityGraphicController extends AEntityGraphicController
                 String position = style.getValue(IDiagramEditorController.POSITION_STYLE_ID);
 		        String[] positionTab = position.split("\\|");
 
-		        double lX = Double.valueOf(positionTab[0]);
-		        double lY = Double.valueOf(positionTab[1]);
-		        double tX = Double.valueOf(positionTab[2]);
-		        double tY = Double.valueOf(positionTab[3]);
+		        //double lX = Double.valueOf(positionTab[0]);
+		        double lX = Double.parseDouble(positionTab[0]);
+		        //double lY = Double.valueOf(positionTab[1]);
+		        double lY = Double.parseDouble(positionTab[1]);
+		        //double tX = Double.valueOf(positionTab[2]);
+		        double tX = Double.parseDouble(positionTab[2]);
+		        //double tY = Double.valueOf(positionTab[3]);
+		        double tY = Double.parseDouble(positionTab[3]);
 
                 IActivity act = new Activity(model.getObj(), diagramController.getDiagram());
                 act.addStyle(IDiagramEditorController.POSITION_STYLE_ID, lX + 10 + "|" + lX + "|" + tX + "|" + (tY + 10));
@@ -181,25 +192,28 @@ public class ActivityGraphicController extends AEntityGraphicController
                     diagramController.createRelation(model);
             }
         });*/
-        model.addPropertyChangeListener(IActivity.CREATED_ACTIVITY_PROPERTY_NAME, evt -> {
-            setText();
-        });
+        model.addPropertyChangeListener(IActivity.CREATED_ACTIVITY_PROPERTY_NAME, evt -> 
+            setText()
+        );
 
-        model.addPropertyChangeListener(STYLE_CHANGED_PROPERTY_NAME, evt -> {
-            setStyle((IStyle) evt.getNewValue(), false);
-        });
+        model.addPropertyChangeListener(STYLE_CHANGED_PROPERTY_NAME, evt -> 
+            setStyle((IStyle) evt.getNewValue(), false)
+        );
 
         model.getObj().addPropertyChangeListener(STYLE_CHANGED_PROPERTY_NAME, new PropertyChangeListener() {
 			public void propertyChange(PropertyChangeEvent evt) {
 				String position = ((IStyle) evt.getNewValue()).getValue(IDiagramEditorController.POSITION_STYLE_ID);
 		        String[] positionTab = position.split("\\|");
-		        double lX = Double.valueOf(positionTab[0]);
-		        double lY = Double.valueOf(positionTab[1]);
+		        //double lX = Double.valueOf(positionTab[0]);
+		        double lX = Double.parseDouble(positionTab[0]);
+		        //double lY = Double.valueOf(positionTab[1]);
+		        double lY = Double.parseDouble(positionTab[1]);
 		        double tX = diagramController.getObjects().get(model.getObj()).lifeLineStartPosition().getX() - activityG.getWidth()/2;
 
 		        String positionAct = model.getStyle().getValue(IDiagramEditorController.POSITION_STYLE_ID);
 		        String[] positionTab1 = positionAct.split("\\|");
-		        double tY1 = Double.valueOf(positionTab1[3]);
+		        //double tY1 = Double.valueOf(positionTab1[3]);
+		        double tY1 = Double.parseDouble(positionTab1[3]);
 
 				model.addStyle(IDiagramEditorController.POSITION_STYLE_ID, lX + "|" + lY + "|" + (tX + model.getLevel() * 10) + "|" + tY1);
 			}
@@ -210,18 +224,23 @@ public class ActivityGraphicController extends AEntityGraphicController
 			public void propertyChange(PropertyChangeEvent evt) {
 				String position = ((IStyle) evt.getNewValue()).getValue(IDiagramEditorController.POSITION_STYLE_ID);
 		        String[] positionTab = position.split("\\|");
-		        double lX = Double.valueOf(positionTab[0]);
-		        double lY = Double.valueOf(positionTab[1]);
-		        double tX = Double.valueOf(positionTab[2]);
-		        double tY = Double.valueOf(positionTab[3]);
+		        
+		        //double lX = Double.valueOf(positionTab[0]);
+		        double lX = Double.parseDouble(positionTab[0]);
+		        //double lY = Double.valueOf(positionTab[1]);
+		        double lY = Double.parseDouble(positionTab[1]);
+		       // double tX = Double.valueOf(positionTab[2]);
+		        double tX = Double.parseDouble(positionTab[2]);
+		        //double tY = Double.valueOf(positionTab[3]);
+		        double tY = Double.parseDouble(positionTab[3]);
 
 		        model.addStyle(IDiagramEditorController.POSITION_STYLE_ID, lX + "|" + lY + "|" + (tX + 10) + "|" + tY);
 			}
         });
 
-        model.addPropertyChangeListener(IActivity.RELATION_ADDED_TO_ACTIVITY_PROPERTY_NAME, evt -> {
-    		setText();
-    	});
+        model.addPropertyChangeListener(IActivity.RELATION_ADDED_TO_ACTIVITY_PROPERTY_NAME, evt -> 
+    		setText()
+    	);
     }
 
 	@Override
@@ -239,7 +258,7 @@ public class ActivityGraphicController extends AEntityGraphicController
 
 		height = height / 2;
 
-		if (model.getRelation().size() != 0) {
+		if (model.getRelation().isEmpty()) {
 			height = height + model.getRelation().size() * 20;
 		}
 
@@ -253,17 +272,23 @@ public class ActivityGraphicController extends AEntityGraphicController
 
         String position = style.getValue(IDiagramEditorController.POSITION_STYLE_ID);
         String[] positionTab = position.split("\\|");
-        double lX = Double.valueOf(positionTab[0]);
-        double lY = Double.valueOf(positionTab[1]);
-        double tX = Double.valueOf(positionTab[2]);
-        double tY = Double.valueOf(positionTab[3]);
+        
+        //double lX = Double.valueOf(positionTab[0]);
+        double lX = Double.parseDouble(positionTab[0]);
+        //double lY = Double.valueOf(positionTab[1]);
+        double lY = Double.parseDouble(positionTab[1]);
+        //double tX = Double.valueOf(positionTab[2]);
+        double tX = Double.parseDouble(positionTab[2]);
+        //double tY = Double.valueOf(positionTab[3]);
+        double tY = Double.parseDouble(positionTab[3]);
 
         String size = style.getValue(IDiagramEditorController.SIZE_STYLE_ID);
         if (size == null) {
         	size = activityG.getRectangle().getWidth() + "|" + activityG.getRectangle().getHeight();
         }
         String[] sizeTab = size.split("\\|");
-        double h = Double.valueOf(sizeTab[1]);
+        //double h = Double.valueOf(sizeTab[1]);
+        double h = Double.parseDouble(sizeTab[1]);
 
         activityG.getRectangle().setHeight(h);
 

@@ -1,8 +1,10 @@
 package fr.univrouen.umlreverse.ui.component.clazz.relations;
 
 import java.util.ArrayList;
+
 import java.util.List;
 
+import fr.univrouen.umlreverse.ui.component.clazz.dialog.DialogAddPoint;
 import fr.univrouen.umlreverse.model.diagram.clazz.view.IViewEntity;
 import fr.univrouen.umlreverse.model.diagram.common.TypeHeadArrow;
 import fr.univrouen.umlreverse.model.diagram.common.TypeLineArrow;
@@ -15,12 +17,14 @@ import javafx.beans.value.ChangeListener;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.geometry.Point2D;
+import javafx.scene.control.ButtonType;
 import javafx.scene.control.ContextMenu;
 import javafx.scene.control.MenuItem;
 import javafx.scene.input.ContextMenuEvent;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.paint.Color;
 import fr.univrouen.umlreverse.model.diagram.clazz.view.INoteClass;
+
 
 /**
  * A controller associated with a note-relation component.
@@ -175,6 +179,12 @@ public class NoteRelationGraphicController implements IRelationGraphicController
         
     }
     
+//    //Affiche une boite de dialogue pour ajouter un point a la relation
+//	private void afficherDialogAjoutPoint() {
+//		DialogAddPoint dialogAddPoint = new DialogAddPoint();
+//		dialogAddPoint.showAndWait();
+//	}
+	
     // TOOLS
     /**
      * Create and populate the context menu associated with the component, and
@@ -197,7 +207,7 @@ public class NoteRelationGraphicController implements IRelationGraphicController
     
         // EVENT ON RELATION
         
-        // Show context menu.
+        //quand on clique sur la relation, on la selectionne et on affiche le menu contextuel 
         relation.setContextMenuEventOnArrow(ContextMenuEvent.CONTEXT_MENU_REQUESTED,
                 new EventHandler<ContextMenuEvent>() {
                         @Override
@@ -209,6 +219,7 @@ public class NoteRelationGraphicController implements IRelationGraphicController
                 }
         );
         
+        //cette partie permet de mettre en valeur la relation quand on passe la souris dessus
         relation.setMouseEventOnArrow(MouseEvent.MOUSE_ENTERED, 
             new EventHandler<MouseEvent>() {
                 @Override
@@ -220,6 +231,7 @@ public class NoteRelationGraphicController implements IRelationGraphicController
             }
         );
          
+        //cette partie permet de remettre la relation dans son etat initial quand on sort la souris
         relation.setMouseEventOnArrow(MouseEvent.MOUSE_EXITED, 
             new EventHandler<MouseEvent>() {
                 @Override
@@ -230,7 +242,8 @@ public class NoteRelationGraphicController implements IRelationGraphicController
                 }
             }
         );
-         
+        
+
   
         // LISTENERS ON GRAPHIC ENTITIES
         moveEntityCL = (observable, oldValue, newValue) ->

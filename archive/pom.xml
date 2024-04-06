@@ -45,29 +45,29 @@
         <dependency>
             <groupId>org.antlr</groupId>
             <artifactId>antlr4-runtime</artifactId>
-            <version>4.5.1-1</version>
+            <version>4.13.1</version>
         </dependency>
         <dependency>
             <groupId>junit</groupId>
-            <artifactId>junit</artifactId><!--Rester sur la version 4-->
+            <artifactId>junit</artifactId> <!--Rester sur la version 4-->
             <version>4.12</version>
             <scope>test</scope>
         </dependency>
          <dependency>
              <groupId>org.apache.commons</groupId>
              <artifactId>commons-lang3</artifactId>
-             <version>3.4</version>
+             <version>3.14.0</version>
          </dependency>
          <dependency>
              <groupId>org.mockito</groupId>
              <artifactId>mockito-core</artifactId>
-             <version>1.10.19</version>
+             <version>5.10.0</version>
              <scope>test</scope>
          </dependency>
          <dependency>
              <artifactId>assertj-core</artifactId>
              <groupId>org.assertj</groupId>
-             <version>3.3.0</version>
+             <version>3.25.3</version>
              <scope>test</scope>
          </dependency>
      </dependencies>

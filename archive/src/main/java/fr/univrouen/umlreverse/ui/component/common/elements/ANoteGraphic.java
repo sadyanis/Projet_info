@@ -13,7 +13,7 @@ public abstract class ANoteGraphic extends AEntityTextGraphic implements INoteGr
     private final NoteShape rectangle;
     
 // CONSTRUCTORS
-    public ANoteGraphic(IDiagramEditorController diagramController) {
+    protected ANoteGraphic(IDiagramEditorController diagramController) {
         super(diagramController);
         Contract.check(diagramController != null, "L'argument diagramController "
                 + "ne doit pas être nul.");

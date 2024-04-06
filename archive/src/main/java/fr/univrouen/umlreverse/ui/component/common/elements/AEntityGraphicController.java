@@ -21,7 +21,7 @@ public abstract class AEntityGraphicController implements IEntityGraphicControll
     private final ObjectProperty<Point2D> positionProperty;
     
 // CONSTRUCTORS
-    public AEntityGraphicController() {
+    protected AEntityGraphicController() {
         ctxMenu = new ContextMenu();
         editMI = new MenuItem("Modifier");
         removeMI = new MenuItem("Supprimer");

@@ -31,8 +31,8 @@ public class NoteClass extends Observable implements INoteClass {
     private final IClassDiagram diagram;
     private String text = "";
     private String id;
+    
     // CONSTRUCTOR
-
     public NoteClass(String id, String text, IClassDiagram diagram) throws RefusedAction {
         super();
         Contract.check(diagram != null);

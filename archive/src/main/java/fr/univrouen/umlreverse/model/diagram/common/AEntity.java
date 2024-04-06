@@ -24,7 +24,7 @@ public abstract class AEntity extends Observable implements IEntity {
     private String id;
 
 // CONSTRUCTORS
-    public AEntity(IDiagramCommon diagram) {
+    protected AEntity(IDiagramCommon diagram) {
         Contract.check(diagram != null);
         this.diagram = diagram;
         id = UUID.randomUUID().toString();
@@ -59,9 +59,9 @@ public abstract class AEntity extends Observable implements IEntity {
     @Override
     public void addAllStyle(Map<String, String> keyValue) {
         Contract.check(keyValue != null);
-        keyValue.keySet().stream().forEach((key) -> {
-            getDiagram().getStyle().addStyle(getStyleId(), getId(), key, keyValue.get(key));
-        });
+        keyValue.keySet().stream().forEach(key -> 
+            getDiagram().getStyle().addStyle(getStyleId(), getId(), key, keyValue.get(key))
+        );
     }
         
     @Override

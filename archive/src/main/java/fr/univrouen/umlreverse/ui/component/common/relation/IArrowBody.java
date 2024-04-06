@@ -1,6 +1,10 @@
 package fr.univrouen.umlreverse.ui.component.common.relation;
 
+import java.beans.PropertyChangeListener;
 import java.util.List;
+import java.util.Map;
+
+import javafx.beans.property.ObjectProperty;
 import javafx.event.EventHandler;
 import javafx.geometry.Point2D;
 import javafx.scene.input.MouseEvent;
@@ -45,6 +49,26 @@ public interface IArrowBody {
      *      p != null
      */
     void addPoint(Point2D p); 
+    
+    /**
+	 * Remove point. The line connected move too.
+	 * 
+	 * @param p
+	 * @pre p != null
+	 */
+    void removePoint(Point2D p);
+    
+	/**
+	 * Add point in end arrowbody. The last line are connected on this point. A new
+	 * line is created. If Point move, the 2 last lines move too.
+	 * 
+	 * @param p
+	 * @pre p != null
+	 */
+    
+    void addPointWithProximity(Point2D p);
+    
+    
     /**
      * Execute clearAll() and initizialise first line, start and end point with 
      * property.
@@ -98,4 +122,9 @@ public interface IArrowBody {
      *      pointDnd_Event != null
      */
     void setDNDPointEvent(EventHandler<MouseEvent> pointDnd_Event);
+    //ajouter par yanis
+    public void addPropertyChangeListener(String name,PropertyChangeListener pcl);
+    public void removePropertyChangeListener(String name, PropertyChangeListener pcl);
+    public void firePropertyChanged(String name,Object old , Object newval);
+    public Map<Circle, ObjectProperty<Point2D>> getCirclesMap();
 }

@@ -51,7 +51,7 @@ public abstract class ADiagramEditorController implements IDiagramEditorControll
      * Constructor of the controller of an editor.
      * @param editor the editor that will correspond to this controller.
      */
-    public ADiagramEditorController(ADiagramEditor editor) {
+    protected ADiagramEditorController(ADiagramEditor editor) {
         Contract.check(editor != null , 
                 "L'argument editor ne doit pas être nul.");
         this.editor = editor;
@@ -137,6 +137,7 @@ public abstract class ADiagramEditorController implements IDiagramEditorControll
      * Add controllers on DiagramEditor
      */
     private void createController() {
+    	
         zoomInMI.setOnAction(new EventHandler<ActionEvent>() {
             @Override
             public void handle(ActionEvent arg0) {

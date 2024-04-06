@@ -24,8 +24,8 @@ public class ActivityGraphic extends AEntityTextGraphic implements IActivityGrap
 	private final ActivityGraphicController controller;
 	private final Rectangle rect;
 
-	private IObjectGraphic src;
-	private IObjectGraphic dst;
+	//private IObjectGraphic src;
+	//private IObjectGraphic dst;
 
 	/**
 	 * this circle allows to enlarge manually the graphic package

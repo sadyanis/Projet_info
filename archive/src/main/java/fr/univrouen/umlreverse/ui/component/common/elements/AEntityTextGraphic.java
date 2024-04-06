@@ -19,7 +19,7 @@ public abstract class AEntityTextGraphic extends AEntityGraphic implements IEnti
     IDiagramEditorController diagramController;
     
 // CONSTRUCTORS
-    public AEntityTextGraphic(IDiagramEditorController diagramController) {
+    protected AEntityTextGraphic(IDiagramEditorController diagramController) {
         super(diagramController);
         Contract.check(diagramController != null, "L'argument diagramController "
                 + "ne doit pas être nul.");

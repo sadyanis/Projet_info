@@ -22,7 +22,7 @@ public abstract class ADiagramCommon extends ADiagram implements IDiagramCommon 
 		// ATTRIBUTES
         private final Set<IRelation> relations  = new HashSet<>() ;
 // CONSTRUCTORS
-    public ADiagramCommon(IProject project, String name) throws RefusedAction {
+    protected ADiagramCommon(IProject project, String name) throws RefusedAction {
         super(project, name);
     }
    

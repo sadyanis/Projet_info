@@ -1,6 +1,9 @@
 package fr.univrouen.umlreverse.ui.component.common.relation;
 
 import fr.univrouen.umlreverse.util.Contract;
+
+import java.beans.PropertyChangeListener;
+import java.beans.PropertyChangeSupport;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -22,6 +25,7 @@ import javafx.scene.shape.Shape;
  */
 public class ArrowBody implements IArrowBody {
 // ATTRIBUTES
+	public static final String PROP_CIRCLE = "circleList";
     private static final Color COLOR_DEFAULT = Color.BLACK;
     private static final double RADIUS = 5d;
     private Color colorLines;  
@@ -36,6 +40,8 @@ public class ArrowBody implements IArrowBody {
     private final Map<Line, ObjectProperty<Point2D>> linesToPointsEnd;
     private EventHandler<MouseEvent> pointDnd_Event;
     private double dash = -1;
+    // ajouter par @yanis
+    PropertyChangeSupport pcs ;
     
 // CONSTRUCTORS
     /**
@@ -52,6 +58,8 @@ public class ArrowBody implements IArrowBody {
     public ArrowBody(double startX, double startY, double endX, double endY, ObjectProperty<Point2D> tailProperty, ObjectProperty<Point2D> headProperty) {
         Contract.check(tailProperty != null, "tailProperty must not be null.");
         Contract.check(headProperty != null, "headProperty must not be null.");
+        //Ajouter par @yanis
+        pcs =new PropertyChangeSupport(this);
         colorLines = COLOR_DEFAULT;
         startPointProperty = new SimpleObjectProperty<>();
         endPointProperty = new SimpleObjectProperty<>();
@@ -108,8 +116,14 @@ public class ArrowBody implements IArrowBody {
         return circlesList;
     }
     
+    //Ajouter par @yan
+    public Map<Circle, ObjectProperty<Point2D>> getCirclesMap(){
+    	return this.circles;
+    }
+    
 // COMMANDS
  
+    //ajouter un point
     @Override
     public void addPoint(Point2D p) {
         Contract.check(p != null, "p must not be null.");
@@ -164,6 +178,64 @@ public class ArrowBody implements IArrowBody {
         
         
     }
+    
+    //supprimer un point
+    public void removePoint(Point2D p) {
+		Contract.check(p != null, "p must not be null.");
+		if (circles.containsValue(p)) {
+			Circle c = null;
+			for (Map.Entry<Circle, ObjectProperty<Point2D>> entry : circles.entrySet()) {
+				if (entry.getValue().getValue().equals(p)) {
+					c = entry.getKey();
+					break;
+				}
+			}
+			if (c != null) {
+				ObjectProperty<Point2D> point = circles.get(c);
+				ChangeListener<Point2D> changeL = changeListerners.get(point);
+				point.removeListener(changeL);
+				circles.remove(c);
+				circlesList.remove(c);
+				c.setVisible(false);
+				c.removeEventHandler(MouseEvent.MOUSE_ENTERED, null);
+				c.removeEventHandler(MouseEvent.MOUSE_EXITED, null);
+				c.removeEventFilter(MouseEvent.MOUSE_DRAGGED, null);
+			}
+		} else {
+			Line l = null;
+			for (Map.Entry<Line, ObjectProperty<Point2D>> entry : linesToPointsStart.entrySet()) {
+				if (entry.getValue().getValue().equals(p)) {
+					l = entry.getKey();
+					break;
+				}
+			}
+			if (l != null) {
+				ObjectProperty<Point2D> point = linesToPointsStart.get(l);
+				ChangeListener<Point2D> changeL = changeListerners.get(point);
+				point.removeListener(changeL);
+				linesToPointsStart.remove(l);
+				linesToPointsEnd.remove(l);
+				lines.remove(l);
+			}
+		}
+    }
+    
+    //ajouter un point en le reliant aux points les plus proches
+    @Override
+    public void addPointWithProximity(Point2D p) {
+    	        Contract.check(p != null, "p must not be null.");
+    	        for (Line l : lines) {
+    	            Point2D start = linesToPointsStart.get(l).getValue();
+    	            Point2D end = linesToPointsEnd.get(l).getValue();
+    	            if (start.distance(p) + p.distance(end) - start.distance(end) < 0.0001) {
+    	                addPoint(p);
+    	                circles.put(new Circle(p.getX(), p.getY(), RADIUS, COLOR_DEFAULT), null);
+    	                
+    	            }
+    	        }
+    }
+    	        
+
     
     @Override
     public void clear() {
@@ -240,6 +312,18 @@ public class ArrowBody implements IArrowBody {
        this.pointDnd_Event = pointDnd_Event;
     }
     
+    //Ajouter par #yanis
+    public void addPropertyChangeListener(String name,PropertyChangeListener pcl) {
+    	pcs.addPropertyChangeListener(pcl);
+    }
+    public void removePropertyChangeListener(String name, PropertyChangeListener pcl) {
+    	pcs.removePropertyChangeListener(pcl);
+    }
+    public void firePropertyChanged(String name,Object old , Object newval) {
+    	pcs.firePropertyChange(name, old, newval);
+    }
+    // fin 
+    
 // PRIVATE
     
     private void addChangeLOnFirstsPoints() {
@@ -280,5 +364,19 @@ public class ArrowBody implements IArrowBody {
         if (pointDnd_Event != null) {
             c.addEventFilter(MouseEvent.MOUSE_DRAGGED, pointDnd_Event);
         }
+        
+        c.addEventHandler(MouseEvent.MOUSE_CLICKED,new EventHandler<MouseEvent>() {
+
+			@Override
+			public void handle(MouseEvent event) {
+				// TODO Auto-generated method stub
+				circlesList.remove(c);
+				circles.remove(c);
+				firePropertyChanged(PROP_CIRCLE,null,c);
+				
+			}
+        	
+        });
+        
     }
 }

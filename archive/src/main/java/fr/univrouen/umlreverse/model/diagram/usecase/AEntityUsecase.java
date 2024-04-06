@@ -25,7 +25,7 @@ public abstract class AEntityUsecase extends AEntityRelation implements IEntityU
      * @param name
      * @param ParentGroup
      */
-	public AEntityUsecase(String name, System ParentGroup) {
+	protected AEntityUsecase(String name, System ParentGroup) {
         super(ParentGroup.getDiagram());
         Contract.check(name != null , "name can't be null");
         Name = name;

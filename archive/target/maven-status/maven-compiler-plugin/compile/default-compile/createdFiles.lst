@@ -103,7 +103,6 @@ fr\univrouen\umlreverse\model\io\parser\java\Java8Parser$AssignmentOperatorConte
 fr\univrouen\umlreverse\model\io\parser\plantuml\PlantUMLParser$NoteDirectionContext.class
 fr\univrouen\umlreverse\ui\component\sequence\elements\ActivityGraphicController$4.class
 fr\univrouen\umlreverse\ui\component\common\elements\AEntityGraphic.class
-fr\univrouen\umlreverse\ui\view\common\ADiagramEditor$1.class
 fr\univrouen\umlreverse\ui\view\usecase\UsecaseController$3.class
 fr\univrouen\umlreverse\model\io\parser\java\Java8Parser$SingleStaticImportDeclarationContext.class
 fr\univrouen\umlreverse\ui\view\clazz\ClassController$3.class
@@ -113,6 +112,7 @@ fr\univrouen\umlreverse\ui\component\clazz\relations\NoteRelationGraphicControll
 fr\univrouen\umlreverse\ui\view\packag\PackageController$1.class
 fr\univrouen\umlreverse\ui\component\clazz\relations\RelationGraphicController$21.class
 fr\univrouen\umlreverse\ui\component\clazz\relations\RelationGraphicController$9.class
+fr\univrouen\umlreverse\ui\component\clazz\dialog\DialogRemovePoint.class
 fr\univrouen\umlreverse\ui\component\common\relation\type\Asynchrone.class
 fr\univrouen\umlreverse\ui\component\common\relation\ARelationGraphic$7.class
 fr\univrouen\umlreverse\ui\component\clazz\relations\RelationGraphicController$19.class
@@ -421,6 +421,7 @@ fr\univrouen\umlreverse\ui\component\common\relation\IArrowHead.class
 fr\univrouen\umlreverse\model\io\parser\java\Java8Parser$SuperinterfacesContext.class
 fr\univrouen\umlreverse\ui\component\common\relation\RelationGraphicController$7.class
 fr\univrouen\umlreverse\ui\view\clazz\ToolBarClassController.class
+fr\univrouen\umlreverse\ui\component\clazz\dialog\DialogAddPoint.class
 fr\univrouen\umlreverse\model\io\parser\java\Java8Parser$MethodBodyContext.class
 fr\univrouen\umlreverse\model\io\parser\java\Java8Parser$ConstructorBodyContext.class
 fr\univrouen\umlreverse\model\io\parser\util\common\ParseRelationType$1.class
@@ -432,7 +433,9 @@ fr\univrouen\umlreverse\model\io\parser\java\Java8Parser$SwitchBlockStatementGro
 fr\univrouen\umlreverse\ui\component\sequence\dialog\DialogRelation$1$1.class
 fr\univrouen\umlreverse\model\io\parser\java\Java8Parser$SynchronizedStatementContext.class
 fr\univrouen\umlreverse\model\io\parser\java\Java8Parser$DoStatementContext.class
+fr\univrouen\umlreverse\ui\component\common\relation\ARelationGraphic$10.class
 fr\univrouen\umlreverse\model\diagram\sequence\ISegmentWithElse.class
+fr\univrouen\umlreverse\ui\component\clazz\relations\RelationGraphicController$24.class
 fr\univrouen\umlreverse\model\io\parser\util\usecase\ParseUsecaseNote.class
 fr\univrouen\umlreverse\model\io\parser\java\Java8Parser$EnumDeclarationContext.class
 fr\univrouen\umlreverse\ui\component\usecase\elements\NoteGraphicController$2.class
@@ -627,6 +630,7 @@ fr\univrouen\umlreverse\model\diagram\sequence\SegmentCommon.class
 fr\univrouen\umlreverse\ui\view\usecase\UsecaseController$4$1.class
 fr\univrouen\umlreverse\model\io\parser\plantuml\PlantUMLParser$StereotypeContext.class
 fr\univrouen\umlreverse\model\diagram\usecase\ISystem.class
+fr\univrouen\umlreverse\ui\component\clazz\relations\RelationGraphicController$23.class
 fr\univrouen\umlreverse\model\io\parser\java\Java8Listener.class
 fr\univrouen\umlreverse\model\io\parser\java\Java8Parser$ConditionalAndExpressionContext.class
 fr\univrouen\umlreverse\model\io\parser\java\Java8Parser$BreakStatementContext.class

@@ -92,12 +92,12 @@ public class Activity extends Observable implements IActivity {
 	public Set<IActivity> getActivitiesChilds(Set<IActivity> result) {
 		result.addAll(getActivity());
 		getActivity().forEach(act -> act.getActivitiesChilds(result));
-		if (result.size() != 0) {
+		if (result.isEmpty()) {
 			haveChild = true;
 		}
 		return result;
 	}
-
+	
 	@Override
 	public int getLevel() {
 		IActivity act = getParent();

@@ -1,6 +1,9 @@
 package fr.univrouen.umlreverse.ui.component.common.relation;
 
+import java.beans.PropertyChangeEvent;
+import java.beans.PropertyChangeListener;
 import java.util.ArrayList;
+
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.List;
@@ -64,7 +67,7 @@ public abstract class ARelationGraphic implements ISelectionableEntityGraphic,
      * @pre
      *      diagramEditorController != null 
      */
-    public ARelationGraphic(IDiagramEditorController diagramEditorController) {
+    protected ARelationGraphic(IDiagramEditorController diagramEditorController) {
         Contract.check(diagramEditorController != null, 
                 "diagramEditorController must not be null.");
         this.diagramEditorController = diagramEditorController;
@@ -84,50 +87,58 @@ public abstract class ARelationGraphic implements ISelectionableEntityGraphic,
     
 // REQUESTS
     
-    
+    //obtenir le controller de la relation
     @Override
     public List<Circle> getArrowBodyCircles() {
         Contract.check(arrowBody != null, "arrowBody must not be null.");
         return arrowBody.getCircles();
     }
     
+    //obtenir la cardinalité de la fin de la relation
     @Override
     public String getCardinalityEnd() {
         return getController().getCardinalityEnd();
     }
     
+    //obtenir la cardinalité de la fin du texte
     @Override
     public Text getCardinalityEndText() {
         return arrowHead.getText();
     }
     
+    //obtenir la cardinalité du début de la relation
     @Override
     public String getCardinalityStart() {
         return getController().getCardinalityStart();
     }
     
+    //obtenir la cardinalité du début du texte
     @Override
     public Text getCardinalityStartText() {
         return arrowTail.getText();
     }
     
+    //obtenir la couleur de la destination
     @Override
     public Circle getCircleDst() {
         Contract.check(arrowHead != null, "arrowHead must not be nulll.");
         return arrowHead.getHeadCircle();
     }
     
+    //obtenir la couleur de la source
     @Override
     public Circle getCircleSrc() {
         Contract.check(arrowTail != null, "arrowTail must not be nulll.");
         return arrowTail.getHeadCircle();
     }
     
+    //obtenir la couleur de la relation
     @Override
     public Color getColorRelation() {
         return getController().getColorRelation();
     }
     
+    //obtenir la couleur du texte
     @Override
     public Color getColorText() {
         return getController().getColorText();
@@ -135,36 +146,43 @@ public abstract class ARelationGraphic implements ISelectionableEntityGraphic,
     
     public abstract IRelationGraphicController getController();
     
+    //obtenir le controller de la source
     @Override
     public IEntityGraphic getEntityDst() {
         return getController().getGEntityDst();
     }
     
+    //obtenir le controller de la destination
     @Override
     public IEntityGraphic getEntitySrc() {
         return getController().getGEntitySrc();
     }
     
+    //obtenir le premier point de la relation
     @Override
     public Line getFirstLine() {
         return arrowBody.getFisrtLine();
     }
     
+    //obtenir le groupe
     @Override
     public List<Line> getHeadLines() {
         return arrowHead.getLines();
     }  
  
+    //obtenir le nom de la relation
     @Override
     public String getName() {
         return getController().getName();
     }
     
+    //obtenir le nom du texte
     @Override
     public Text getNameText() {
         return nameText;
     }
     
+    //obtenir le type de la relation
     @Override
     public Set<Shape> getShapes() {
         Set<Shape> res = new HashSet<>(getArrowShapes());
@@ -172,11 +190,13 @@ public abstract class ARelationGraphic implements ISelectionableEntityGraphic,
         return res;
     }    
     
+    //obtenir le type de la tête de la relation
     @Override
     public List<Line> getTailLines() {
         return arrowTail.getLines();
     }
     
+    //obtenir le type de la relation
     @Override
     public RelationTypeEnum getType() {
         return getController().getType();
@@ -197,9 +217,9 @@ public abstract class ARelationGraphic implements ISelectionableEntityGraphic,
         }).forEach(new Consumer<Shape>() {
             @Override
             public void accept(Shape s) {
-                events.keySet().stream().forEach((event) -> {
-                    s.removeEventHandler(event, events.get(event));
-                });
+                events.keySet().stream().forEach(event -> 
+                    s.removeEventHandler(event, events.get(event))
+                );
             }
         });
         arrowBody.clearAll();
@@ -369,34 +389,38 @@ public abstract class ARelationGraphic implements ISelectionableEntityGraphic,
             final EventHandler<? super ContextMenuEvent> eventHandler) {
         Contract.check(eventType != null, "eventType must not be null.");
         Contract.check(eventHandler != null, "eventHandler must not be null.");
-        getArrowShapes().stream().forEach((s) -> {
-            s.addEventHandler(eventType, eventHandler);
-        });
+        getArrowShapes().stream().forEach(s -> 
+            s.addEventHandler(eventType, eventHandler)
+        );
         menuEvent = eventType;
         menuEventHandler = eventHandler;
     }
     
+
     @Override
     public void setDNDPointEvent(EventHandler<MouseEvent> pointDnd_Event) {
         Contract.check(pointDnd_Event != null, "c must not be null.");
         arrowBody.setDNDPointEvent(pointDnd_Event);
     }
     
+    //set the name of the relation
     @Override
     public void setName(String name) {
         Contract.check(name != null, "name must not be null.");
         getController().setName(name);
     }
     
+    //set the controller of the relation
     @Override
     public void setMouseEventOnArrow(EventType<MouseEvent> eventType,
             final EventHandler<? super MouseEvent> eventHandler) {
-        getArrowShapes().stream().forEach((s) -> {
-            s.addEventHandler(eventType, eventHandler);
-        });
+        getArrowShapes().stream().forEach(s -> 
+            s.addEventHandler(eventType, eventHandler)
+        );
         events.put(eventType, eventHandler);
     }
     
+    //set the selected entity
     @Override
     public void setSelected(boolean b) {
         if (b) {
@@ -405,23 +429,27 @@ public abstract class ARelationGraphic implements ISelectionableEntityGraphic,
         isSelected = b;
     }
      
+    //set the type of the relation
     @Override
     public void setType(RelationTypeEnum type) {
         getController().setType(type);
     }
     
+    //set the type of the head of the relation
     @Override
     public void setTypeArrowHead(TypeHeadArrow head) {
         Contract.check(head != null, "head must not be null.");
         headProperty.setValue(head);
     }
     
+    //set the type of the tail of the relation
     @Override
     public void setTypeArrowTail(TypeHeadArrow tail) {
         Contract.check(tail != null, "tail must not be null.");
         tailProperty.setValue(tail);
     }
     
+    //set the type of the line of the relation
     @Override
     public final void setTypeLineArrow(TypeLineArrow line) {
         Contract.check(line != null, "line must not be null.");
@@ -434,7 +462,7 @@ public abstract class ARelationGraphic implements ISelectionableEntityGraphic,
         } 
     }
     
-    
+    //calculer les points de la relation
     @Override
     public final void calculPointRelation() {
         IEntityGraphic src = getController().getGEntitySrc();
@@ -451,6 +479,8 @@ public abstract class ARelationGraphic implements ISelectionableEntityGraphic,
         double wDst = dst.getMainWidth() / 2;
         double hDst = dst.getMainHeight() / 2;
     
+        //on récupère la direction de la relation
+        //en fonction de la position des entités
         Direction d = getDirectionOfDestination();
         switch (d) {
             case NORTH:
@@ -465,7 +495,8 @@ public abstract class ARelationGraphic implements ISelectionableEntityGraphic,
                 		new Point2D(xSrc + wSrc, ySrc));
                 sideDst.setData(EntityPoint.Side.BOTTOM,
                 		new Point2D(xDst, yDst + hDst));
-                buildRelationIn2Line();
+                buildRelationIn3Line();
+                //buildRelationIn2Line();
                 break;
             case EST:
                 sideSrc.setData(EntityPoint.Side.RIGHT,
@@ -479,7 +510,8 @@ public abstract class ARelationGraphic implements ISelectionableEntityGraphic,
                 		new Point2D(xSrc + wSrc, ySrc));
                 sideDst.setData(EntityPoint.Side.TOP,
                 		new Point2D(xDst, yDst - hDst));
-                buildRelationIn2Line();
+                //buildRelationIn2Line();
+                buildRelationIn3Line();
                 break;
             case SOUTH:
                 sideSrc.setData(EntityPoint.Side.BOTTOM,
@@ -493,7 +525,8 @@ public abstract class ARelationGraphic implements ISelectionableEntityGraphic,
                 		new Point2D(xSrc - wSrc, ySrc));
                 sideDst.setData(EntityPoint.Side.TOP,
                 		new Point2D(xDst, yDst - hDst));
-                buildRelationIn2Line();
+                //buildRelationIn2Line();
+                buildRelationIn3Line();
                 break;
             case WEST:
                 sideSrc.setData(EntityPoint.Side.LEFT,
@@ -507,7 +540,8 @@ public abstract class ARelationGraphic implements ISelectionableEntityGraphic,
                 		new Point2D(xSrc - wSrc, ySrc));
                 sideDst.setData(EntityPoint.Side.BOTTOM,
                 		new Point2D(xDst, yDst + hDst));
-                buildRelationIn2Line();
+                //buildRelationIn2Line();
+                buildRelationIn3Line();
                 break;
             case NULL:
                 sideSrc.setData(EntityPoint.Side.RIGHT,
@@ -559,7 +593,25 @@ public abstract class ARelationGraphic implements ISelectionableEntityGraphic,
              public void changed(ObservableValue<? extends Point2D> observable, Point2D oldValue, Point2D newValue) {
                  arrowTail.moveHeadPoint(newValue);
              }
+             
          });
+        arrowBody.addPropertyChangeListener(ArrowBody.PROP_CIRCLE, new PropertyChangeListener() {
+
+			@Override
+			public void propertyChange(PropertyChangeEvent evt) {
+				System.out.println("AAmek dinna cv??");
+				/*Circle c = (Circle)evt.getNewValue();
+				ObjectProperty<Point2D> p = arrowBody.getCirclesMap().get(c);
+				
+				arrowBody.removePoint(p.get());
+				arrowBody.getCircles().remove(c);*/
+				
+				drawArrowBodyInGroup();
+				//buildRelationIn3Line();
+				
+			}
+        	
+        });
     }
     
     protected Direction getDirectionOfDestination() {
@@ -629,23 +681,24 @@ public abstract class ARelationGraphic implements ISelectionableEntityGraphic,
     
     protected void drawArrowBodyInGroup() {
         if (group != null) {
-            arrowBody.getShapes().stream().filter((s) -> (!group.getChildren().contains(s))).forEach((s) -> {
-                group.getChildren().add(s);
-            });
+            arrowBody.getShapes().stream().filter((s) -> (!group.getChildren().contains(s))).forEach(s -> 
+                group.getChildren().add(s)
+            );
             arrowBody.getLines().stream().map((l) -> {
                 l.addEventHandler(menuEvent, menuEventHandler);
                 return l;
             }).forEach(new Consumer<Line>() {
                 @Override
                 public void accept(Line l) {
-                    events.keySet().stream().forEach((event) -> {
-                        l.addEventHandler(event, events.get(event));
-                    });
+                    events.keySet().stream().forEach(event -> 
+                        l.addEventHandler(event, events.get(event))
+                    );
                 }
             });
         }
     }
     
+     
     /**
      * Build a relation between an entity and itself.
      */
@@ -707,32 +760,81 @@ public abstract class ARelationGraphic implements ISelectionableEntityGraphic,
         arrowTail.setSide(sideEnumSrc);
         arrowHead.setSide(sideDst.getSide());      
         drawArrowBodyInGroup();
-        if (sideEnumSrc == EntityPoint.Side.TOP ||
-        		sideEnumSrc == EntityPoint.Side.BOTTOM) {
+        
+        //si la relation est verticale :
+        //on ajoute les points de la relation
+        //en fonction de la position des entités
+        //pour que la relation soit bien placée entre les deux entités
+        //y représente la position centrale de la relation
+        //et les 3 points ajoutés sont les points
+        //centre de la relation
+        if (sideEnumSrc == EntityPoint.Side.TOP || sideEnumSrc == EntityPoint.Side.BOTTOM 
+        		&& getDirectionOfDestination() != Direction.NORTH_WEST 
+        		&& getDirectionOfDestination() != Direction.NORTH_EST 
+        		&& getDirectionOfDestination() != Direction.SOUTH_WEST 
+        		&& getDirectionOfDestination() != Direction.SOUTH_EST) {
+        	
             double y;
             if (sideEnumSrc == EntityPoint.Side.TOP) {
                 y = ySrc + (yDst - ySrc) / 2;
             } else {
                 y = yDst + (ySrc - yDst) / 2;
             }  
-            arrowBody.addPoint(new Point2D(xSrc, y));
+            //arrowBody.addPoint(new Point2D(xSrc, y));
             arrowBody.addPoint(new Point2D(Math.min(xSrc, xDst) +
             		Math.abs(xDst - xSrc) / 2, y));
-            arrowBody.addPoint(new Point2D(xDst, y));
+            //arrowBody.addPoint(new Point2D(xDst, y));
         } else {
+        	
+        	if ( getDirectionOfDestination() != Direction.NORTH_WEST 
+            		&& getDirectionOfDestination() != Direction.NORTH_EST 
+            		&& getDirectionOfDestination() != Direction.SOUTH_WEST 
+            		&& getDirectionOfDestination() != Direction.SOUTH_EST) {
+        	
+        	//si la relation est horizontale :
+        	//on ajoute les points de la relation
+        	//en fonction de la position des entités
+        	//pour que la relation soit bien placée entre les deux entités
+        	//x représente la position centrale de la relation horizontalement
+        	//et les 3 points ajoutés sont les points
+        	//centre de la relation
+        	
             double x;
             if (sideEnumSrc == EntityPoint.Side.RIGHT) {
                 x = xSrc + (xDst - xSrc) / 2;
             } else {
                 x = xSrc - (xSrc - xDst) / 2;
             } 
-            arrowBody.addPoint(new Point2D(x, ySrc));
+            //arrowBody.addPoint(new Point2D(x, ySrc));
             arrowBody.addPoint(new Point2D(x, Math.max(ySrc, yDst) -
             		Math.abs(yDst - ySrc) / 2));
-            arrowBody.addPoint(new Point2D(x, yDst));
+            //arrowBody.addPoint(new Point2D(x, yDst));
         }
-        drawArrowBodyInGroup();
-    }
+        }
+        
+        
+        //si la relation est diagonale
+        //on le constate a partir de la direction de la relation
+        //et on ajoute un point qui est le point centre de la relation
+        //et qui est situé entre les deux entités
+        //pour que la relation soit bien placée entre les deux entités
+        //et on aura que 3 points diagonaux
+        //au lieu de 4
+        //et on aura une relation diagonale
+        
+		if (getDirectionOfDestination() == Direction.NORTH_EST 
+				|| getDirectionOfDestination() == Direction.SOUTH_EST) {
+			arrowBody.addPoint(new Point2D(((xSrc + xDst) / 2) - xSrc/10 , (ySrc + yDst)  / 2));
+//			arrowBody.addPoint(new Point2D(Math.min(xSrc, xDst) + Math.abs(xDst - xSrc) / 2,
+//					Math.min(ySrc, yDst) + Math.abs(yDst - ySrc) / 2));
+		}
+		if (getDirectionOfDestination() == Direction.NORTH_WEST 
+                || getDirectionOfDestination() == Direction.SOUTH_WEST) {
+            arrowBody.addPoint(new Point2D(((xSrc + xDst) / 2) - xSrc/10 , (ySrc + yDst)  / 2));
+		}
+
+		drawArrowBodyInGroup();
+		}
     
     
     /**
@@ -764,20 +866,55 @@ public abstract class ARelationGraphic implements ISelectionableEntityGraphic,
             arrowBody.addPoint(new Point2D(xSrc,
             		Math.max(ySrc, yDst) - Math.abs(yDst - ySrc) / 2));           
             arrowBody.addPoint(new Point2D(xSrc, yDst));
-            arrowBody.addPoint(new Point2D(Math.max(xSrc, xDst) -
-            		Math.abs(xDst - xSrc) / 2, yDst));
+            /*arrowBody.addPoint(new Point2D(Math.max(xSrc, xDst) -
+            		Math.abs(xDst - xSrc) / 2, yDst));*/ //supprimer les points en plus
         } else {
-            arrowBody.addPoint(new Point2D(Math.min(xSrc, xDst) +
-            		Math.abs(xDst - xSrc) / 2, ySrc));
+            /*arrowBody.addPoint(new Point2D(Math.min(xSrc, xDst) +
+            		Math.abs(xDst - xSrc) / 2, ySrc));*/ //supprimer les points en plus
             arrowBody.addPoint(new Point2D(xDst, ySrc));
-            arrowBody.addPoint(new Point2D(xDst,
-            		Math.max(ySrc, yDst) - Math.abs(yDst - ySrc) / 2));
+            /*arrowBody.addPoint(new Point2D(xDst,
+            		Math.max(ySrc, yDst) - Math.abs(yDst - ySrc) / 2));*/ //supprimer les points en plus
         }
         drawArrowBodyInGroup();
     }
+    
+	protected void buildRelationIn1Line() {
+		Point2D pointSrc = sideSrc.getPoint();
+		Point2D pointDst = sideDst.getPoint();
+		EntityPoint.Side sideEnumSrc = sideSrc.getSide();
+		double xSrc = pointSrc.getX();
+		double ySrc = pointSrc.getY();
+		double xDst = pointDst.getX();
+		double yDst = pointDst.getY();
+
+		clearArrowBodyInGroup();
+		arrowBody.clear();
+		arrowBody.moveStartPoint(arrowTail.getTailPoint());
+		arrowBody.moveEndPoint(arrowHead.getTailPoint());
+		arrowTail.setSide(sideEnumSrc);
+		arrowHead.setSide(sideDst.getSide());
+		drawArrowBodyInGroup();
+		arrowBody.addPoint(new Point2D(xDst, yDst));
+		drawArrowBodyInGroup();
+	}
+	
+	//ajouter un point à la relation
+	public void addPointInRelation(Double x, Double y) {
+        arrowBody.addPoint(new Point2D(x, y));
+        drawArrowBodyInGroup();
+	}
+	
+	//supprimer un point de la relation
+	public void removePointInRelation(Double x, Double y) {
+		arrowBody.removePoint(new Point2D(x, y));
+		drawArrowBodyInGroup();
+	}
     
 // ENUM
     public enum Direction {
         NORTH, NORTH_EST, EST, SOUTH_EST, SOUTH, SOUTH_WEST, WEST, NORTH_WEST, NULL
     }
+    
+    //outils
+    
 }

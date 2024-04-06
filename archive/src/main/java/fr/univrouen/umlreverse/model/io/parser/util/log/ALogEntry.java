@@ -10,7 +10,7 @@ import java.time.LocalDateTime;
 public abstract class ALogEntry {
     private String text;
 
-    public ALogEntry(String text) {
+    protected ALogEntry(String text) {
         this.text = "[" + LocalDateTime.now().toLocalTime().toString() + "] " + text;
     }
 

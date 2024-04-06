@@ -22,7 +22,7 @@ public abstract class ADiagram extends Observable implements IDiagram {
     /**
      * List of Id
      */
-    Set<String> listIds  = new HashSet<>() ;
+    private Set<String> listIds  = new HashSet<>() ;
 
     /**
      * The style.

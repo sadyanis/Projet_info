@@ -1,6 +1,9 @@
 package fr.univrouen.umlreverse.ui.view;
 
 import fr.univrouen.umlreverse.UmlReverseBeans;
+
+
+
 import fr.univrouen.umlreverse.model.diagram.clazz.view.ClassDiagram;
 import fr.univrouen.umlreverse.model.diagram.clazz.view.IClassDiagram;
 import fr.univrouen.umlreverse.model.diagram.packag.IPackageDiagram;

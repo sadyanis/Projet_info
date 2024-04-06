@@ -20,7 +20,7 @@ public abstract class AEntityGraphic extends BorderPane implements IEntityGraphi
     private final IDiagramEditorController diagramEditorController;
     
 // CONTRUCTORS
-    public AEntityGraphic(IDiagramEditorController diagramEditorController) {
+    protected AEntityGraphic(IDiagramEditorController diagramEditorController) {
         super();
         Contract.check(diagramEditorController != null,
                 "L'argument diagramEditorController "

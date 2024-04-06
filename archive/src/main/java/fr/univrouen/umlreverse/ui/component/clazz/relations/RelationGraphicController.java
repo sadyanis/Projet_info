@@ -2,8 +2,11 @@ package fr.univrouen.umlreverse.ui.component.clazz.relations;
 
 import static fr.univrouen.umlreverse.ui.view.common.IDiagramEditorController.POSITIONS_RELATION_STYLE_ID;
 
+
 import java.util.ArrayList;
 import java.util.List;
+
+import org.w3c.dom.events.Event;
 
 import fr.univrouen.umlreverse.model.diagram.clazz.view.IViewEntity;
 import fr.univrouen.umlreverse.model.diagram.clazz.view.IViewPackage;
@@ -12,8 +15,11 @@ import fr.univrouen.umlreverse.model.diagram.common.TypeHeadArrow;
 import fr.univrouen.umlreverse.model.diagram.common.TypeLineArrow;
 import fr.univrouen.umlreverse.model.diagram.util.IStyle;
 import fr.univrouen.umlreverse.ui.component.clazz.dialog.DialogOEGRelation;
+import fr.univrouen.umlreverse.ui.component.clazz.dialog.DialogRemovePoint;
 import fr.univrouen.umlreverse.ui.component.common.elements.IEntityGraphic;
+import fr.univrouen.umlreverse.ui.component.common.relation.ARelationGraphic;
 import fr.univrouen.umlreverse.ui.component.common.relation.IRelationGraphic;
+import fr.univrouen.umlreverse.ui.component.common.relation.ARelationGraphic;
 import fr.univrouen.umlreverse.ui.component.common.relation.IRelationGraphicController;
 import fr.univrouen.umlreverse.ui.component.common.relation.type.RelationTypeEnum;
 import fr.univrouen.umlreverse.ui.view.clazz.IClassController;
@@ -27,6 +33,7 @@ import javafx.beans.value.ObservableValue;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.geometry.Point2D;
+import javafx.scene.control.ButtonType;
 import javafx.scene.control.ContextMenu;
 import javafx.scene.control.MenuItem;
 import javafx.scene.input.ContextMenuEvent;
@@ -34,6 +41,7 @@ import javafx.scene.input.MouseButton;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.paint.Color;
 import javafx.scene.shape.Circle;
+import fr.univrouen.umlreverse.ui.component.clazz.dialog.DialogAddPoint;
 
 /**
  * A controller associated with a relation component.
@@ -44,10 +52,14 @@ public class RelationGraphicController implements IRelationGraphicController {
     private final IClassController diagramController;
     /** The relation component. */
     private final IRelationGraphic relation;
+    /** The circle representing the source of the relation. */
+    private Circle circle;
     /** The view model associated with the relation component. */
     private final IViewRelation viewRelation;
     /** The context menu associated with the component. */
     private ContextMenu ctxMenu;
+    /** The context menu associated with the component. */
+    private ContextMenu removeMenu;
     /** The source of the relation. */
     private final IEntityGraphic src;
     /** The target of the relation. */
@@ -66,6 +78,9 @@ public class RelationGraphicController implements IRelationGraphicController {
     private EventHandler<MouseEvent> sourceDND_Event;
     private EventHandler<MouseEvent> destinationDND_Event;
     private EventHandler<MouseEvent> pointDnd_Event;
+    
+    private double xPoint;
+    private double yPoint;
     
     // CONSTRUCTORS
     /**
@@ -264,8 +279,13 @@ public class RelationGraphicController implements IRelationGraphicController {
         MenuItem editMI = new MenuItem("Éditer");
         MenuItem cleanMI = new MenuItem("Rafraîchir");
         MenuItem removeMI = new MenuItem("Supprimer");
+        MenuItem addPointMI = new MenuItem("Ajouter un point");
+        MenuItem removePointMI = new MenuItem("Supprimer un point");
         
-        ctxMenu.getItems().addAll(editMI, cleanMI, removeMI);
+        ctxMenu.getItems().addAll(editMI, cleanMI, removeMI, addPointMI);
+        
+        removeMenu = new ContextMenu();
+        removeMenu.getItems().addAll(removePointMI);
 
         editMI.setOnAction(new EventHandler<ActionEvent>() {
             @Override
@@ -284,7 +304,38 @@ public class RelationGraphicController implements IRelationGraphicController {
             public void handle(ActionEvent event) {
                 diagramController.removeRelation(viewRelation);
             }
-        });   
+        }); 
+		addPointMI.setOnAction(new EventHandler<ActionEvent>() {
+			@Override
+			public void handle(ActionEvent event) {
+				//afficher la boite de dialogue pour configurer l'ajout du point
+				DialogAddPoint dialog = new DialogAddPoint();
+				ButtonType result = dialog.showAndWait();
+				if (result == ButtonType.YES) {
+					// ajout du point
+					((ARelationGraphic) relation).addPointInRelation(xPoint, yPoint);
+				}
+
+			}
+		});
+		
+		//afficher la boite de dialogue pour configurer la suppression du point des qu'on clique sur le point a retirer
+		circle = new Circle();
+		circle.addEventHandler(MouseEvent.MOUSE_CLICKED, new EventHandler<MouseEvent>() {
+			@Override
+			public void handle(MouseEvent event) {
+				//recuperer les coordonnées du point ou l'on a cliqué
+				double x = event.getX();
+				double y = event.getY();
+				// afficher la boite de dialogue pour configurer la suppression du point
+				DialogRemovePoint dialog = new DialogRemovePoint();
+				ButtonType result = dialog.showAndWait();
+				if (result == ButtonType.YES) {
+					// suppression du point
+					((ARelationGraphic) relation).removePointInRelation(x, y);
+				}
+			}
+		});
         
         createControllerRelation();
         createPropertyListeners();
@@ -297,7 +348,8 @@ public class RelationGraphicController implements IRelationGraphicController {
     private void createControllerRelation() {
         initializeRelationEvent();
         
-        // Show context menu.
+        
+        // Show context menu when a right click is detected.
         relation.setContextMenuEventOnArrow(ContextMenuEvent.CONTEXT_MENU_REQUESTED,
                 new EventHandler<ContextMenuEvent>() {
                         @Override
@@ -305,9 +357,17 @@ public class RelationGraphicController implements IRelationGraphicController {
                             relation.setSelected(true);
                             ctxMenu.show(relation.getFirstLine(), 
                                     event.getScreenX(), event.getScreenY());
+                            //recuperer les coordonnées du point ou l'on a cliqué
+                            double x = event.getX();
+                            double y = event.getY();
+                            xPoint = x;
+                            yPoint = y;
                         }
                 }
         );
+        
+        // Show remove menu when a right click is detected.
+		
         
         // Show DialogEdit when a double click is detected.
         relation.setMouseEventOnArrow(MouseEvent.MOUSE_CLICKED,
@@ -322,6 +382,7 @@ public class RelationGraphicController implements IRelationGraphicController {
             }
         );
            
+        // Highlight the relation when the mouse enters it.
         relation.setMouseEventOnArrow(MouseEvent.MOUSE_ENTERED, 
             new EventHandler<MouseEvent>() {
                 @Override
@@ -338,6 +399,7 @@ public class RelationGraphicController implements IRelationGraphicController {
             }
         );
          
+        // Unhighlight the relation when the mouse exits it.
         relation.setMouseEventOnArrow(MouseEvent.MOUSE_EXITED, 
             new EventHandler<MouseEvent>() {
                 @Override
@@ -353,27 +415,35 @@ public class RelationGraphicController implements IRelationGraphicController {
                 }
             }
         );
+        
+        // Move the relation when the mouse is dragged.
         relation.getCircleSrc().addEventHandler(MouseEvent.MOUSE_ENTERED,
         		new EventHandler<MouseEvent>() {
             @Override
             public void handle(MouseEvent event) {
                 relation.getCircleSrc().setVisible(true);
             }
-        });       
+        });      
+        
+        // Show the source circle when the mouse enters it.
         relation.getCircleSrc().addEventHandler(MouseEvent.MOUSE_EXITED,
         		new EventHandler<MouseEvent>() {
             @Override
             public void handle(MouseEvent event) {
                 relation.getCircleSrc().setVisible(false);
             }
-        });   
+        }); 
+        
+        // Show the destination circle when the mouse enters it.
         relation.getCircleDst().addEventHandler(MouseEvent.MOUSE_ENTERED,
         		new EventHandler<MouseEvent>() {
             @Override
             public void handle(MouseEvent event) {
                 relation.getCircleDst().setVisible(true);
             }
-        });      
+        }); 
+        
+        // Hide the destination circle when the mouse exits it.
         relation.getCircleDst().addEventHandler(MouseEvent.MOUSE_EXITED,
         		new EventHandler<MouseEvent>() {
             @Override

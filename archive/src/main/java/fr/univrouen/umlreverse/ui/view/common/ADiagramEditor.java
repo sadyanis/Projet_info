@@ -26,7 +26,7 @@ public abstract class ADiagramEditor extends Pane implements IDiagramEditor {
     /**
      * Constructor of the diagram editor.
      */
-    public ADiagramEditor() {
+    protected ADiagramEditor() {
         super();
         canvas = new PannableCanvas();
         SceneGestures sg = new SceneGestures(canvas);
@@ -37,19 +37,27 @@ public abstract class ADiagramEditor extends Pane implements IDiagramEditor {
         setBackground(new Background(new BackgroundFill(Color.WHITE, null, null)));
         Rectangle clipRectangle = new Rectangle();
         setClip(clipRectangle);
-        layoutBoundsProperty().addListener(new ChangeListener<Bounds>() {
-            @Override
-            public void changed(ObservableValue<? extends Bounds> observable, Bounds oldValue, Bounds newValue) {
-                clipRectangle.setWidth(newValue.getWidth());
-                clipRectangle.setHeight(newValue.getHeight());
-            }
-        });  
+        
+        //layoutBoundsProperty().addListener(new ChangeListener<Bounds>() {
+        //   @Override
+        //  public void changed(ObservableValue<? extends Bounds> observable, Bounds oldValue, Bounds newValue) {
+        //       clipRectangle.setWidth(newValue.getWidth());
+        //      clipRectangle.setHeight(newValue.getHeight());
+        // }
+        //});
+        
+        //Lamba a la place d'une classe interne anonyme :
+        layoutBoundsProperty().addListener((observable, oldValue, newValue) -> {
+            clipRectangle.setWidth(newValue.getWidth());
+            clipRectangle.setHeight(newValue.getHeight());
+        }); 
+
 
     }
     
 // REQUESTS 
-    @Override
-    public abstract IDiagramEditorController getController();
+    //@Override
+    //public abstract IDiagramEditorController getController();
  
     @Override
     public PannableCanvas getCanvas() {

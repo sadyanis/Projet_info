@@ -27,7 +27,7 @@ public abstract class AEntityRelation extends AEntity implements IEntityRelation
     protected final Map<IEntityRelation, IRelation> relations = new HashMap<>();
     
 // CONSTRUCTORS
-    public AEntityRelation(IDiagramCommon diagram) {
+    protected AEntityRelation(IDiagramCommon diagram) {
         super(diagram);
     }
     

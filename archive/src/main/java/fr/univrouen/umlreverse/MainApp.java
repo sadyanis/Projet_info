@@ -80,6 +80,8 @@ public class MainApp extends Application {
         stage.setScene(scene);
         stage.show();
         stage.setResizable(true);
+        //stage.setFullScreen(true);
+
     }
     
     private void setActionToQuitApplication(Stage stage) {
