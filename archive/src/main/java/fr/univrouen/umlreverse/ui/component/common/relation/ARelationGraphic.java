@@ -600,11 +600,11 @@ public abstract class ARelationGraphic implements ISelectionableEntityGraphic,
 			@Override
 			public void propertyChange(PropertyChangeEvent evt) {
 				System.out.println("AAmek dinna cv??");
-				/*Circle c = (Circle)evt.getNewValue();
+				Circle c = (Circle)evt.getNewValue();
 				ObjectProperty<Point2D> p = arrowBody.getCirclesMap().get(c);
 				
-				arrowBody.removePoint(p.get());
-				arrowBody.getCircles().remove(c);*/
+				//arrowBody.removePoint(p.get());
+				arrowBody.getCircles().remove(c);
 				
 				drawArrowBodyInGroup();
 				//buildRelationIn3Line();

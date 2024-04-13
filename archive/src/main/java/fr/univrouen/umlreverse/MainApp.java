@@ -1,5 +1,5 @@
 package fr.univrouen.umlreverse;
-
+//imports
 import fr.univrouen.umlreverse.ui.view.DiagramTabPane;
 import fr.univrouen.umlreverse.ui.view.DirectAccessToAllEntityPane;
 import fr.univrouen.umlreverse.ui.view.MenuController;
