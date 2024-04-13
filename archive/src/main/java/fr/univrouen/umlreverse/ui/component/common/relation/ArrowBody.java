@@ -1,6 +1,5 @@
 package fr.univrouen.umlreverse.ui.component.common.relation;
 
-import fr.univrouen.umlreverse.ui.component.clazz.dialog.DialogRemovePoint;
 import fr.univrouen.umlreverse.util.Contract;
 
 import java.beans.PropertyChangeListener;
@@ -15,8 +14,6 @@ import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;
 import javafx.event.EventHandler;
 import javafx.geometry.Point2D;
-import javafx.scene.control.ButtonType;
-import javafx.scene.input.MouseButton;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.paint.Color;
 import javafx.scene.shape.Circle;
@@ -178,7 +175,6 @@ public class ArrowBody implements IArrowBody {
         linesToPointsEnd.put(newLine, endPointProperty);
         linesToPointsEnd.put(lastLine, newPoint);       
         newPoint.setValue(p);
-        
         
         
     }
@@ -374,25 +370,13 @@ public class ArrowBody implements IArrowBody {
 			@Override
 			public void handle(MouseEvent event) {
 				// TODO Auto-generated method stub
-				if (event.getButton() == MouseButton.PRIMARY  && event.getClickCount() == 2) {
-					 DialogRemovePoint dialog = new DialogRemovePoint();
-					  ButtonType result = dialog.showAndWait();
-					  if (result == ButtonType.YES) {
-
-
-						  //Envoi de l'événement
-
-						  firePropertyChanged(PROP_CIRCLE,null,c);
-
-					  }
-				}
-				
-				
+				circlesList.remove(c);
+				circles.remove(c);
+				firePropertyChanged(PROP_CIRCLE,null,c);
 				
 			}
         	
         });
-
         
     }
 }
